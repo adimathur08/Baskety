@@ -1,0 +1,425 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'styles/LandingPage_CSS.css' %}">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+  <style>
+  .MultiCarousel {
+    float: left;
+    overflow: hidden;
+    padding: 15px;
+    width: 100%;
+    position:relative;
+  }
+  .MultiCarousel .MultiCarousel-inner { transition: 1s ease all; float: left; }
+      .MultiCarousel .MultiCarousel-inner .item {
+         float: left;
+
+         }
+      .MultiCarousel .MultiCarousel-inner .item > div { text-align: center;margin-right: 25px; margin-left: 25px;padding:5px;  background:#f1f1f1; color:#666;}
+  .MultiCarousel .leftLst, .MultiCarousel .rightLst { position:absolute; border-radius:50%;top:calc(50% - 20px); }
+  .MultiCarousel .leftLst { left:0; }
+  .MultiCarousel .rightLst { right:0; }
+
+      .MultiCarousel .leftLst.over, .MultiCarousel .rightLst.over { pointer-events: none; background:#ccc; }
+
+      
+  </style>
+  
+</head>
+
+  <body>
+
+    
+<div class="gooey">
+  <div class="bg">
+  <span class="dot"></span>
+  <div class="dots">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+</div>
+<script>
+  window.addEventListener('load', ()=>{
+
+    const gooey = document.querySelector('.gooey');
+    gooey.classList.add("gooey-finish");
+
+  })
+
+</script>
+    <nav class="navbar navbar-expand-md navbar-light sticky-top" id="navbar" style="height:10ex">
+      <a class="navbar-brand" id='brandText' href="/" style="position:relative;   left:80px;">
+        <strong>MY ShoppingCart</strong>
+      </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarsExample04">
+    <ul class="navbar-nav mr-auto">
+
+      <div class="btn-group" style=" left:120px;">
+
+        <a class="nav-link" id="catButton" href="#categoryHeading" >Categories</a>
+
+
+      </div>
+      
+      
+    </ul>
+    <ul class="navbar-nav navbar-right">
+      <li>
+
+        <div style="margin-top: 10px; margin-right: 25px;"><strong><center>
+          {% if user.is_authenticated %}
+          Welcome, {{ user.first_name}}
+            <div class="btn-group" >
+              <a class="nav-link" id="catButton" href="user_logout" >LOGOUT</a>
+          {% else %}
+            <div class="btn-group" >
+              <a class="nav-link" id="catButton" href="userhome" >LOGIN</a>
+            </div>
+            <div class="btn-group" >
+              <a class="nav-link" id="catButton" href="user_signup" >SIGNUP</a>
+            </div>
+        {% endif %}
+        </center>
+        </strong>
+        </div>
+
+
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" onclick="profileDrop()" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <img src="{% static 'Images/icons8-user-48.png'%}" width="30" height="30" alt="Profile">
+          Profile
+        </a>
+        <div id="profileDropdown" class="dropdown-menu" aria-labelledby="dropdown04">
+          <a class="dropdown-item" href="orderhistory">Order History</a>
+          <a class="dropdown-item" href="#" >Referral Code</a>
+          <a class="dropdown-item" href="#" >Wallet</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <span class="container">
+          <a class="nav-link " href="checkout.html">
+            <img src="{% static 'Images/online-store.png'%}" width="30" height="30" alt="Cart">
+
+        </a>
+        </span>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="jumbotron" style="height: 540px">
+  <div class="text-block">
+    <center>
+    <p> <h1></h1>
+    </p>
+  </center>
+  </div>
+</div>
+
+<h2 style="text-align:center">Most Popular</h2>
+
+
+<div class="container">
+	<div class="row">
+		<div class="MultiCarousel" data-items="1,3,3,4" data-slide="3" id="MultiCarousel"  data-interval="1000">
+            <div class="MultiCarousel-inner">
+
+              {% for item in itemdata %}
+                    
+                  <!-- {% for cartitem in cart %}
+                    {% if item.id == cartitem.product_id %}
+                      {% with display_quantity=cartitem.product_quantity %}
+                        {{display_quantity}}
+                      {% endwith %}
+                      {% endif %}
+                  {% endfor %} -->
+                            
+                <div class="item">
+                  <div class="card">
+                    <img src="media/{{item.itemImage}}" alt="img" class=" card-img-top">
+                    <div class="card-body" style="text-align:center;">
+                      <h5>{{item.itemName}}</h5>
+                      {% if item.hasSubcat %}
+                      <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Varient
+                        <span class="caret"></span></button>
+                        <ul class="dropdown-menu" style="text-align: center; overflow:visible;">
+                          <li><a href="#">1 Kg</a></li>
+                          <li><a href="#">200 gm</a></li>
+                          <li><a href="#">4 pc.</a></li>
+                        </ul>
+                      </div> <br>
+                      {% else %}
+                        <div style="text-align: center;">
+                          <strong><h6>VARIENT &nbsp&nbsp-&nbsp&nbsp{{item.defaultVarient}}
+                            <br>
+                              PRICE &nbsp&nbsp-&nbsp&nbsp{{item.itemPrice}} RS. </h6></strong>
+                        </div>
+
+                      {% endif %}
+
+                      {% for cartitem in cart %}
+                          {% if item.id == cartitem.product_id %}
+                                  <div id="quantity"> Quantity in Cart : <label id="quantity_val">{{cartitem.product_quantity}} </label></div>
+                          {% endif %}
+                      {% endfor %}
+                      <form class="addtocart" >  
+                        <!-- method="POST" action="addtocart" -->
+                        {% csrf_token %}
+
+                                                                                                                                    {% for cartitem in cart %}
+                                                                                                                                      {% if item.id == cartitem.product_id %}
+                                                                                                                                              <!-- <div> Quantity in Cart : {{cartitem.product_quantity}} </div><br> -->
+                                                                                                                                              
+                                                                                                                                              <!-- <br>
+                                                                                                                                            <div id="plusminus" style="display: none;" class="desc">
+                                                                                                                                                  <button type="button" id="sub" class="sub btn btn-primary btn-sm" data-min="1" data-max="{{ item.maxBuy }}" >-</button>
+                                                                                                                                              
+                                                                                                                                                  <input type="number" class="inputQuantity" name="display_quantity" value="1"   data-min="1" data-max="{{ item.maxBuy }}" readonly/>
+
+                                                                                                                                                <button type="button" id="add" class="add btn btn-primary btn-sm" data-min="1" data-max="{{ item.maxBuy }}" >+</button>
+                                                                                                                                            </div> -->
+
+                                                                                                                                            <!-- {% block extrascripts %}
+                                                                                                                                                  <script>
+                                                                                                                                                      var x = document.getElementById("plusminus");
+                                                                                                                                                      x.style.display = "block";
+                                                                                                                                                      var y = document.getElementById("addtocartbtn");
+                                                                                                                                                      y.style.display = "none";
+                                                                                                                                                      var z = document.getElementById("delbtn");
+                                                                                                                                                      z.style.display = "none";
+                                                                                                                                                  </script>
+                                                                                                                                              {% endblock %} -->
+                                                                                                                                      {% endif %}
+                                                                                                                                    {% endfor %}
+                                    <br> <div>
+                                      <input type="hidden" value="{{item.id}}" name="itemid"/>
+                                    </div>
+                                    <div id="addtocartbtn" >
+                                      <button class="btn btn-primary btn-sm" type="submit"  style="margin-bottom: 5px;"  )>Add to Cart</button>
+                                    </div> 
+                    
+                        
+                                   
+                          </form>
+
+
+                          <form class="deleteitem">
+                                    <!-- method="POST" action="deleteitem" -->
+                                    {% csrf_token %}
+                                    {% for cartitem in cart %}
+                                      {% if item.id == cartitem.product_id %}
+                                      <div id="delbtn" >
+                                      <input type="hidden" value="{{item.id}}" name="itemid"/>
+                                        <button class="btn btn-primary btn-sm" type="submit" )>Delete an item</button>
+                                      </div>
+                                      {% endif %}
+                                    {% endfor %}
+                          </form>
+                        
+                    </div>
+                  </div>
+                </div>
+ 
+              {% endfor %}
+                
+            </div>
+            <button class="btn btn-primary leftLst"><</button>
+            <button class="btn btn-primary rightLst">></button>
+        </div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+
+    $(document).on('submit','.addtocart',function(e){
+
+        e.preventDefault();
+        var a=$(this).find('input[name=itemid]').val();
+        $.ajax({              
+
+          type:'POST',
+          url:'addtocart',
+          data:{
+            itemid:a,
+            'csrfmiddlewaretoken': $('[name="csrfmiddlewaretoken"]').val()
+          }
+        });
+        setTimeout(() => { document.location.reload(true);} , 100);
+    });
+
+
+    $(document).on('submit','.deleteitem',function(e){
+
+        e.preventDefault();
+        var a=$(this).find('input[name=itemid]').val();
+        $.ajax({  
+          type:'POST',
+          url:'deleteitem',
+          data:{
+            itemid:a,
+            'csrfmiddlewaretoken': $('[name="csrfmiddlewaretoken"]').val()
+          }
+        });
+        setTimeout(() => { document.location.reload(true);} , 100);
+      });
+</script>
+
+<!--  script that counts Quantity -->
+<script>
+$('.add').click(function () {
+  var m = $(this).data('max');
+  var maxvalue=parseInt(m)
+    if ($(this).prev().val() < maxvalue) {
+      $(this).prev().val(+$(this).prev().val() + 1);
+    }
+});
+$('.sub').click(function () {
+    if ($(this).next().val() > 1) {
+      if ($(this).next().val() > 1) $(this).next().val(+$(this).next().val() - 1);
+    }
+});
+</script>
+
+
+<script>
+  $(document).ready(function () {
+      var itemsMainDiv = ('.MultiCarousel');
+      var itemsDiv = ('.MultiCarousel-inner');
+      var itemWidth = "";
+
+      $('.leftLst, .rightLst').click(function () {
+          var condition = $(this).hasClass("leftLst");
+          if (condition)
+              click(0, this);
+          else
+              click(1, this)
+      });
+
+      ResCarouselSize();
+
+
+
+
+      $(window).resize(function () {
+          ResCarouselSize();
+      });
+
+      //this function define the size of the items
+      function ResCarouselSize() {
+          var incno = 0;
+          var dataItems = ("data-items");
+          var itemClass = ('.item');
+          var id = 0;
+          var btnParentSb = '';
+          var itemsSplit = '';
+          var sampwidth = $(itemsMainDiv).width();
+          var bodyWidth = $('body').width();
+          $(itemsDiv).each(function () {
+              id = id + 1;
+              var itemNumbers = $(this).find(itemClass).length;
+              btnParentSb = $(this).parent().attr(dataItems);
+              itemsSplit = btnParentSb.split(',');
+              $(this).parent().attr("id", "MultiCarousel" + id);
+
+
+              if (bodyWidth >= 1200) {
+                  incno = itemsSplit[3];
+                  itemWidth = sampwidth / incno;
+              }
+              else if (bodyWidth >= 992) {
+                  incno = itemsSplit[2];
+                  itemWidth = sampwidth / incno;
+              }
+              else if (bodyWidth >= 768) {
+                  incno = itemsSplit[1];
+                  itemWidth = sampwidth / incno;
+              }
+              else {
+                  incno = itemsSplit[0];
+                  itemWidth = sampwidth / incno;
+              }
+              $(this).css({ 'transform': 'translateX(0px)', 'width': itemWidth * itemNumbers });
+              $(this).find(itemClass).each(function () {
+                  $(this).outerWidth(itemWidth);
+              });
+
+              $(".leftLst").addClass("over");
+              $(".rightLst").removeClass("over");
+
+          });
+      }
+
+
+      //this function used to move the items
+      function ResCarousel(e, el, s) {
+          var leftBtn = ('.leftLst');
+          var rightBtn = ('.rightLst');
+          var translateXval = '';
+          var divStyle = $(el + ' ' + itemsDiv).css('transform');
+          var values = divStyle.match(/-?[\d\.]+/g);
+          var xds = Math.abs(values[4]);
+          if (e == 0) {
+              translateXval = parseInt(xds) - parseInt(itemWidth * s);
+              $(el + ' ' + rightBtn).removeClass("over");
+
+              if (translateXval <= itemWidth / 2) {
+                  translateXval = 0;
+                  $(el + ' ' + leftBtn).addClass("over");
+              }
+          }
+          else if (e == 1) {
+              var itemsCondition = $(el).find(itemsDiv).width() - $(el).width();
+              translateXval = parseInt(xds) + parseInt(itemWidth * s);
+              $(el + ' ' + leftBtn).removeClass("over");
+
+              if (translateXval >= itemsCondition - itemWidth / 2) {
+                  translateXval = itemsCondition;
+                  $(el + ' ' + rightBtn).addClass("over");
+              }
+          }
+          $(el + ' ' + itemsDiv).css('transform', 'translateX(' + -translateXval + 'px)');
+      }
+
+      //It is used to get some elements from btn
+      function click(ell, ee) {
+          var Parent = "#" + $(ee).parent().attr("id");
+          var slide = $(Parent).attr("data-slide");
+          ResCarousel(ell, Parent, slide);
+      }
+
+  });
+</script>
+<br><br><br>
+<div class="container2" style="margin:0  ">
+  <p id="categoryHeading">CATAGORIES</div>
+    <div class="container" style="width:100%" >
+      <div class="row" id="catTable" style="width: 100%">
+        {% for cat in catt %}
+        <div class="col-lg-4 col-md-6 col-xl-3 gallery"><a href="products.html?id={{cat.catType}}"><img id="im_item" src="media/{{cat.catImage}}" alt="{{cat.catName}}" class="img-thumbnail"></a><div class="desc">{{cat.catName}}</div></div>
+        {% endfor %}
+         </div>
+  </div>
+<!--deleted div id= "contact model"...-->
+
+
+  </body>
+</html>

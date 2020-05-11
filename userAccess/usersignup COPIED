@@ -1,0 +1,70 @@
+def user_signup(request):
+    if request.method == "POST":
+
+        ##.............Method ....1....
+        # first_name = request.POST['first_name']
+        # last_name = request.POST['last_name']
+        # username = request.POST['username']
+        # password = request.POST['password']
+        # email = request.POST['email']
+        # phone = request.POST['phone']
+        # address = request.POST['address']
+        # pincode = request.POST['pincode']
+        ##.............Method ....1 END....
+
+
+        #.............Method ....2....
+        user_form = userSignup(request.POST)
+        phone = request.POST['phone']
+        address = request.POST['address']
+        pincode = request.POST['pincode']
+        #.............Method ....2 END ....
+
+        # user= User.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
+        # user_profile = Profile.objects.create_user(phone=phone, address=address, pincode=pincode)
+        # user.save()
+        # user_profile.save()
+        # auth.login(request, user)
+        # return redirect('/')
+
+        
+        if user_form.is_valid() :
+
+            #.............Method ....2....
+            user = user_form.save()
+            auth.login(request,user)
+            userdata = User.objects.all()
+            for userinfo in userdata:
+                if userinfo.username == user.username:
+                    user_id=user.id
+            #profile = Profile()
+            update_data = Profile.objects.get(pk = user_id)
+            update_data.address=address
+            update_data.phone=phone
+            update_data.pincode=pincode
+            return HttpResponse("TRY ")
+            #profile = Profile(address=address, pincode=pincode, phone=phone, user_id=user_id)
+            #profile.save()
+            # profile_form = userSignup_profile(request.POST, instance=user)
+            # if profile_form.is_valid():
+            #     profile_form.save()
+            # return redirect('/')
+            #messages.success(request, _('Your profile was successfully updated!'))
+            #.............Method ....2 END....
+           
+            ##.............Method ....1....
+            #user= User.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name, phone=phone, address=address, pincode=pincode)
+            # user.save()
+            # auth.login(request, user)
+            # return redirect('/')
+            ##.............Method ....1 END....
+
+        else:
+            return HttpResponse(" SIGNUP FAILED")
+
+
+
+    else:
+        form = userSignup()
+        profile_form = userSignup_profile()
+        return render(request,"user_signup.html",{'form':form, 'profile_form':profile_form})

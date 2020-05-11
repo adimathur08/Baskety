@@ -1,0 +1,143 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'styles/paymentCSS.css' %}">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-md navbar-light sticky-top" id="navbar" style="height:10ex">
+      <a class="navbar-brand" id='brandText' href="/" style="position:relative;   left:80px;">
+        <strong>MY ShoppingCart</strong>
+      </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarsExample04">
+    <ul class="navbar-nav mr-auto">
+
+      <div class="btn-group" style=" left:120px;">
+
+
+
+      </div>
+    </ul>
+    <ul class="navbar-nav navbar-right">
+      <li>
+        <div id="username" style="margin-top: 10px; margin-right: 25px;"><strong><center>
+          {% if user.is_authenticated %}
+          Welcome, {{ user.first_name}}
+            <div class="btn-group" >
+              <a class="nav-link" id="catButton" href="user_logout" >LOGOUT</a>
+          {% else %}
+            <div class="btn-group" >
+              <a class="nav-link" id="catButton" href="userhome" >LOGIN</a>
+            </div>
+            <div class="btn-group" >
+              <a class="nav-link" id="catButton" href="user_signup" >SIGNUP</a>
+            </div>
+        {% endif %}
+        </center>
+        </strong>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" onclick="profileDrop()" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <img src="{% static 'Images/icons8-user-48.png' %}" width="30" height="30" alt="Profile">
+          Profile
+        </a>
+        <div id="profileDropdown" class="dropdown-menu" aria-labelledby="dropdown04">
+          <a class="dropdown-item" href="orderhistory">Order History</a>
+          <a class="dropdown-item" href="#">Referral Code</a>
+          <a class="dropdown-item" href="#">Wallet</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <span class="container">
+        <a class="nav-link " href="checkout.html">
+          <img src="{% static 'Images/online-store.png'%}" width="30" height="30" alt="Cart">
+
+        </a>
+        </span>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+<div class="row payy">
+  <div class="col-75">
+    <div class="container" style="padding-top:50px;">
+      <form action="#">
+
+        <div class="row">
+                              <!-- <div class="col-50">
+                                <h3>Billing Address</h3><br>
+                                <label for="fname"><i class="fa fa-user"></i> Full Name</label>
+                                <input type="text" id="fname" name="firstname" placeholder="FirstName LastName">
+                                <label for="adr1"><i class="fa fa-address-card-o"></i> Address</label>
+                                <input type="text" id="adr1" name="address1" placeholder="Address Line 1">
+                                <input type="text" id="adr2" name="address2" placeholder="Address Line 2">
+                                <label for="city"><i class="fa fa-institution"></i> City</label>
+                                <input type="text" id="city" name="city" placeholder="New Delhi">
+
+                                <div class="row">
+                                  <div class="col-50">
+                                    <label for="state">State</label>
+                                    <input type="text" id="state" name="state" placeholder="Delhi">
+                                  </div>
+                                  <div class="col-50">
+                                    <label for="zip">Zip</label>
+                                    <input type="text" id="zip" name="zip" placeholder="110001">
+                                  </div>
+                                </div>
+                              </div> -->
+          <div class="col-50">
+            <h3>Billing Address</h3><br><br>
+            <div><h5>
+              <strong>{{user.first_name}}  {{user.last_name}}, <br></strong>
+              {{address}}, <br>
+              Pincode : {{pincode}} <br>
+              Phone : +91 {{phone}}
+            </h5>
+            </div>
+          </div>                     
+          <div class="col-50">
+            <h3>Payment</h3> 
+            <strong>Billing Ammount : Rs. {{total}}</strong><br><br>
+            <label for="fname"><h4>Currently Accepted Payment Methods</h4></label><br>
+
+            <label class="container2"><h5>Cash on Delivery</h5>
+              <input type="radio" checked="checked" name="radio">
+              <span class="checkmark"></span>
+            </label>
+            <label class="container2"><h5>Credit/Debit Card (Comming Soon)</h5>
+            </label>
+            <label class="container2"><h5>PayTM (Comming Soon)</h5>
+            </label>
+            <label class="container2"><h5>GPay (Comming Soon)</h5>
+            </label>
+
+          </div>
+
+        </div>
+        <label>
+          <input type="checkbox" checked="checked" name="sameadr"> Shipping address same as billing
+        </label>
+        <input type="button" value="Continue to checkout" class="btn" onclick="window.location.href='/order_success'">
+      </form>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

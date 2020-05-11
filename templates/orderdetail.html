@@ -1,0 +1,219 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'styles/orderdetailCSS.css' %}">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
+</head>
+<body>
+  <nav class="navbar navbar-expand-md navbar-light sticky-top" id="navbar" style="height:10ex">
+    <a class="navbar-brand" id='brandText' href="/" style="position:relative;   left:80px;">
+      <strong>MY ShoppingCart</strong>
+    </a>
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
+  <span class="navbar-toggler-icon"></span>
+</button>
+
+<div class="collapse navbar-collapse" id="navbarsExample04">
+  <ul class="navbar-nav mr-auto">
+
+    <div class="btn-group" style=" left:120px;">
+
+
+
+    </div>
+  </ul>
+  <ul class="navbar-nav navbar-right">
+    <li>
+      <div id="username" style="margin-top: 10px; margin-right: 25px;"><strong><center>
+        {% if user.is_authenticated %}
+        Welcome, {{ user.first_name}}
+          <div class="btn-group" >
+            <a class="nav-link" id="catButton" href="user_logout" >LOGOUT</a>
+        {% else %}
+          <div class="btn-group" >
+            <a class="nav-link" id="catButton" href="userhome" >LOGIN</a>
+          </div>
+          <div class="btn-group" >
+            <a class="nav-link" id="catButton" href="user_signup" >SIGNUP</a>
+          </div>
+      {% endif %}
+      </center>
+      </strong>
+      </div>
+    </li>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" onclick="profileDrop()" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <img src="{% static 'Images/icons8-user-48.png' %}" width="30" height="30" alt="Profile">
+        Profile
+      </a>
+      <div id="profileDropdown" class="dropdown-menu" aria-labelledby="dropdown04">
+        <a class="dropdown-item" href="orderhistory">Order History</a>
+        <a class="dropdown-item" href="#">Referral Code</a>
+        <a class="dropdown-item" href="#">Wallet</a>
+      </div>
+    </li>
+    <li class="nav-item">
+      <span class="container">
+      <a class="nav-link " href="checkout.html">
+        <img src="{% static 'Images/online-store.png'%}" width="30" height="30" alt="Cart">
+
+      </a>
+      </span>
+    </li>
+  </ul>
+</div>
+</nav>
+
+
+    <div style="margin-left: 20%; margin-right: 20%;">
+      <ol class="progtrckr" data-progtrckr-steps="5">
+        <li class="progtrckr-done">Order Placed</li><!--
+     --><li class="progtrckr-done">Order-Approved</li><!--
+     --><li class="progtrckr-todo">Processing</li><!--
+     --><li class="progtrckr-todo">Out for Delivery</li><!--
+     --><li class="progtrckr-todo">Delivered</li>
+    </ol>
+    </div>
+
+    <script>
+
+window.history.pushState({page: 1}, "", "");
+
+window.onpopstate = function(event) {
+    if(event){
+        window.location.href = 'orderhistory';
+    }
+}
+
+
+
+
+
+    </script>
+    
+    <br><br>
+
+    </div>
+    <div class="container-fluid my-5 d-flex justify-content-center">
+
+        <div class="card card-1">
+                <div class="card-header bg-white">
+                    <div class="media flex-sm-row flex-column-reverse justify-content-between ">
+                        <div class="col my-auto">
+                            <h4 class="mb-0">Thanks for your Order, <span class="change-color"> {{user.first_name}}</span> !</h4>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row justify-content-between mb-3">
+                        <div class="col-auto">
+                            <h6 class="color-1 mb-0 change-color">Receipt</h6>
+                        </div>
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col">
+
+                          {% for orderitem in orderitems %}
+                          {% for item in allitems %}
+                          {% if orderitem.product_id == item.id %}
+                            <div class="card card-2">
+                                <div class="card-body">
+                                    <div class="media">
+                                        <div class="sq align-self-center "> <img class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0" src="media/{{item.itemImage}}" width="135" height="135" /> </div>
+                                        <div class="media-body my-auto text-right">
+                                            <div class="row my-auto flex-column flex-md-row">
+                                                <div class="col-auto my-auto">
+                                                   <small>{{item.itemName}} </small>
+                                                </div>
+                                                <div class="col my-auto"> <small>{{item.defaultVarient}}</small></div>
+                                                <div class="col my-auto"> <small>Qty : {{orderitem.product_quantity}}</small></div>
+                                                <div class="col my-auto">
+                                                    <h6 class="mb-0">&#8377;{{item.itemPrice}}</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
+                            {% endif %}
+                            {% endfor %}
+                            {% endfor %}
+                              
+
+                          </div>
+                    </div>
+                    
+                    <div class="row mt-4">
+                        <div class="col">
+                            <div class="row justify-content-between">
+                                <div class="col-auto">
+                                    <p class="mb-1 text-dark"><b>Order Details</b></p>
+                                </div>
+                                <div class="flex-sm-col text-right col">
+                                    <p class="mb-1"><b>Total</b></p>
+                                </div>
+                                <div class="flex-sm-col col-auto">
+                                    <p class="mb-1">&#8377;{{totalprice}}</p>
+                                </div>
+                            </div>
+                            <div class="row justify-content-between">
+                                <div class="flex-sm-col text-right col">
+                                    <p class="mb-1"> <b>Discount</b></p>
+                                </div>
+                                <div class="flex-sm-col col-auto">
+                                    <p class="mb-1">&#8377;0</p>
+                                </div>
+                            </div>
+                            <div class="row justify-content-between">
+                                <div class="flex-sm-col text-right col">
+                                    <p class="mb-1"><b>GST 18%</b></p>
+                                </div>
+                                <div class="flex-sm-col col-auto">
+                                    <p class="mb-1">Included</p>
+                                </div>
+                            </div>
+                            <div class="row justify-content-between">
+                                <div class="flex-sm-col text-right col">
+                                    <p class="mb-1"><b>Delivery Charges</b></p>
+                                </div>
+                                <div class="flex-sm-col col-auto">
+                                    <p class="mb-1">Free</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row invoice ">
+                        <div class="col">
+                            <p class="mb-1">Order Number : {{orderid}}</p>
+                            <p class="mb-1">Invoice Date : 08 May,2020</p>
+                            <p class="mb-1"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="jumbotron-fluid">
+                        <div class="row justify-content-between ">
+                            <div class="col-auto my-auto ">
+                                <h4 class="mb-0 font-weight-bold">TOTAL PAID</h4>
+                            </div>
+                            <div class="col-auto my-auto ml-auto">
+                                <h3 class="display-3 ">&#8377; {{totalprice}}</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+      </div>
+
+</body>
+</html>

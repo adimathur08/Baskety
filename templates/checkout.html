@@ -1,0 +1,235 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'styles/checkoutCSS.css' %}">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+   
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-md navbar-light sticky-top" id="navbar" style="height:10ex">
+      <a class="navbar-brand" id='brandText' href="/" style="position:relative;   left:80px;">
+        <strong>MY ShoppingCart</strong>
+      </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarsExample04">
+    <ul class="navbar-nav mr-auto">
+
+      <div class="btn-group" style=" left:120px;">
+
+
+
+      </div>
+    </ul>
+    <ul class="navbar-nav navbar-right">
+      <li>
+        <div id="username" style="margin-top: 10px; margin-right: 25px;"><strong><center>
+          {% if user.is_authenticated %}
+          Welcome, {{ user.first_name}}
+            <div class="btn-group" >
+              <a class="nav-link" id="catButton" href="user_logout" >LOGOUT</a>
+          {% else %}
+            <div class="btn-group" >
+              <a class="nav-link" id="catButton" href="userhome" >LOGIN</a>
+            </div>
+            <div class="btn-group" >
+              <a class="nav-link" id="catButton" href="user_signup" >SIGNUP</a>
+            </div>
+        {% endif %}
+        </center>
+        </strong>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" onclick="profileDrop()" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <img src="{% static 'Images/icons8-user-48.png' %}" width="30" height="30" alt="Profile">
+          Profile
+        </a>
+        <div id="profileDropdown" class="dropdown-menu" aria-labelledby="dropdown04">
+          <a class="dropdown-item" href="orderhistory">Order History</a>
+          <a class="dropdown-item" href="#">Referral Code</a>
+          <a class="dropdown-item" href="#">Wallet</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <span class="container">
+        <a class="nav-link " href="checkout.html">
+          <img src="{% static 'Images/online-store.png'%}" width="30" height="30" alt="Cart">
+
+        </a>
+        </span>
+      </li>
+    </ul>
+  </div>
+</nav>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+
+{% if cartempty == 0 %}
+<section class="jumbotron text-center">
+  <div class="container">
+      <h1 class="jumbotron-heading">MY CART</h1>
+   </div>
+</section>
+<div class="container mb-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive">
+                <table class="table table-striped" style="text-align:center;">
+                    <thead>
+                        <tr>
+                            <th scope="col"> </th>
+                            <th scope="col">Product</th>
+                            <th scope="col">Varient</th>
+                            <th scope="col" class="text-center">Quantity</th>
+                            <th scope="col" class="text-right">Price</th>
+                            <th> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      {% for  cartitem in cart%}
+                      {%  for item in itemdata  %}
+                      {% if item.id == cartitem.product_id %}
+                     <tr>
+
+                          <td>
+                            
+                              <img src="media/{{item.itemImage}}" id="thumbnail" /> 
+                          </td>
+
+                          <td>
+                            {{item.itemName}} 
+                          </td>
+
+                          <td>
+                            {{item.defaultVarient}}
+                            <strong>-</strong> Rs.
+                            {{item.itemPrice}}
+                          </td>
+
+
+                          <td>
+                            <div class="desc">
+                                <!-- <button type="button" id="sub" class="sub btn btn-primary btn-sm" data-min="1" data-max="{{ item.maxBuy }}">-</button> -->
+                                <input type="number" class="inputQuantity" id="1" value="{{ cartitem.product_quantity }}" readonly/>
+                                <!-- <button type="button" id="add" class="add btn btn-primary btn-sm" data-min="1" data-max="{{ item.maxBuy }}">+</button> -->
+                            </div>
+                          </td>
+
+
+                          <td class="text-right">
+                            
+                            {% widthratio item.itemPrice 1 cartitem.product_quantity as totalitemprice %}
+                               Rs. {{totalitemprice}}
+                            
+                               
+                          </td>
+
+
+                          <td class="text-right">
+                            <form action="deleteitem" method="POST">
+                              {% csrf_token %}
+                              <input type="hidden" name="itemid" value="{{item.id}}">
+                              <button class="btn btn-sm btn-danger" type="submit"><i class="fa fa-trash"></i> </button> 
+                            </form>
+                          </td>
+
+
+                      </tr>
+                      {% endif %}
+                      {% endfor %}
+                      {% endfor %}
+
+
+
+                      
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>Sub-Total</td>
+                            <td class="text-right">
+                              Rs. {{total}}                            
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>Apply Promo : </td>
+                            <td><input type="text" id="promoCode" name="promoCode"></td>
+                            <td></td>
+                            <td>Discount</td>
+                            <td class="text-right">- Rs. 0</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><strong>Total</strong></td>
+                            <td class="text-right"><strong>Rs. {{total}}</strong></td>
+                            
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col mb-2">
+            <div class="row">
+                <div class="col-sm-12  col-md-6">
+                 
+                    <button class="btn btn-block btn-light " onclick="window.location.href='/'">Continue Shopping</button>
+                
+                </div>
+                <div class="col-sm-12 col-md-6 text-right">
+                    
+                    <button class="btn btn-lg btn-block btn-success text-uppercase" onclick="window.location.href='payment.html'">Proceed To Payment</button>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="container space-2 space-lg-3" style="margin-top: 3%; ">
+  <div class="w-md-80 w-lg-50 text-center mx-md-auto">
+
+    <div class="mb-5">
+      <img src="../media/pictures/empty-cart.png" style="padding-left: 50px;">
+      <br>
+      <h1 class="h3 font-weight-medium">Your cart is currently empty !</h1>
+      <p>Before proceed to checkout you must add some products to your shopping cart. You will find a lot of interesting products on our Website.</p>
+    </div>
+    <a class="btn btn-primary btn-pill transition-3d-hover px-5" href="/">Start Shopping</a>
+  </div>
+</div>
+{% endif %}
+
+<!--  script that counts Quantity -->
+<script>
+$('.add').click(function () {
+  var m = $(this).data('max');
+  var maxvalue=parseInt(m)
+    if ($(this).prev().val() < maxvalue) {
+      $(this).prev().val(+$(this).prev().val() + 1);
+    }
+});
+$('.sub').click(function () {
+    if ($(this).next().val() > 1) {
+      if ($(this).next().val() > 1) $(this).next().val(+$(this).next().val() - 1);
+    }
+});
+</script>
+
+
+</body>
+</html>

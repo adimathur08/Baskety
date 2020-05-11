@@ -1,0 +1,339 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'styles/productCSS.css'%}">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-md navbar-light sticky-top" id="navbar" style="height:10ex">
+      <a class="navbar-brand" id='brandText' href="/" style="position:relative;   left:80px;">
+        <strong>MY ShoppingCart</strong>
+      </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarsExample04">
+    <ul class="navbar-nav mr-auto">
+
+      <div class="btn-group" style=" left:120px;">
+
+
+
+      </div>
+    </ul>
+    <ul class="navbar-nav navbar-right">
+      <li>
+        <div id="username" style="margin-top: 10px; margin-right: 25px;"><strong><center>
+          {% if user.is_authenticated %}
+          Welcome, {{ user.first_name}}
+            <div class="btn-group" >
+              <a class="nav-link" id="catButton" href="user_logout" >LOGOUT</a>
+          {% else %}
+            <div class="btn-group" >
+              <a class="nav-link" id="catButton" href="userhome" >LOGIN</a>
+            </div>
+            <div class="btn-group" >
+              <a class="nav-link" id="catButton" href="user_signup" >SIGNUP</a>
+            </div>
+        {% endif %}
+        </center>
+        </strong>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" onclick="profileDrop()" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <img src="{% static 'Images/icons8-user-48.png' %}" width="30" height="30" alt="Profile">
+          Profile
+        </a>
+        <div id="profileDropdown" class="dropdown-menu" aria-labelledby="dropdown04">
+          <a class="dropdown-item" href="orderhistory">Order History</a>
+          <a class="dropdown-item" href="#">Referral Code</a>
+          <a class="dropdown-item" href="#">Wallet</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <span class="container">
+        <a class="nav-link " href="checkout.html">
+          <img src="{% static 'Images/online-store.png'%}" width="30" height="30" alt="Cart">
+
+        </a>
+        </span>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+<div id="myBtnContainer"  style="margin:5px; padding:5px; display: none; ">
+  <strong>FILTER : </strong>
+  <button class="btn active" id="all" onclick="filterSelection('all')"> Show All</button>
+  <button class="btn" id="vegetables" onclick="filterSelection('vegetables')"> Vegetables </button>
+  <button class="btn" id="dairy" onclick="filterSelection('dairy')"> Dairy Products</button>
+  <button class="btn" id="fruits" onclick="filterSelection('fruits')"> Fruits </button>
+  <button class="btn" id="cleaning" onclick="filterSelection('cleaning')"> Cleaning and Household</button>
+  <button class="btn" id="hygiene" onclick="filterSelection('hygiene')"> Hygiene and Personal Care </button>
+  <button class="btn" id="grocries" onclick="filterSelection('grocries')"> Groceries</button>
+  <button class="btn" id="food" onclick="filterSelection('food')"> Food and Beverages</button>
+</div>
+
+<div id="myBtnContainer2"  style="margin:5px; padding:5px;  ">
+  <strong>FILTER : </strong>
+  <button class="btn active" id="all2" onclick="location.href='products.html?id=all';"> Show All</button>
+  <button class="btn" id="vegetables2" onclick="location.href='products.html?id=vegetables';"> Vegetables </button>
+  <button class="btn" id="dairy2" onclick="location.href='products.html?id=dairy';"> Dairy Products</button>
+  <button class="btn" id="fruits2" onclick="location.href='products.html?id=fruits';"> Fruits </button>
+  <button class="btn" id="cleaning2" onclick="location.href='products.html?id=cleaning';"> Cleaning and Household</button>
+  <button class="btn" id="hygiene2" onclick="location.href='products.html?id=hygiene';"> Hygiene and Personal Care </button>
+  <button class="btn" id="grocries2" onclick="location.href='products.html?id=grocries';"> Groceries</button>
+  <button class="btn" id="food2" onclick="location.href='products.html?id=food';"> Food and Beverages</button>
+</div>
+
+<!-- <script>
+  $('#all2').click(function(){
+    $("#all").click();
+})
+$('#vegetables2').click(function(){
+    $("#vegetables").click();
+})
+$('#dairy2').click(function(){
+    $("#dairy").click();
+})
+$('#fruits2').click(function(){
+    $("#fruits").click();
+})
+$('#cleaning2').click(function(){
+    $("#cleaning").click();
+})
+$('#hygiene2').click(function(){
+    $("#hygiene").click();
+})
+$('#grocries2').click(function(){
+    $("#grocries").click();
+})
+$('#food2').click(function(){
+    $("#food").click();
+})
+</script> -->
+
+
+
+<div class="catalog" style="margin-top:40px;">
+  <div id="container" class="container">
+
+    <div class="row">
+      {%  for item in itemdata %}
+      <div class="filterDiv {{item.itemCatagory}} col-lg-4 col-md-6 col-xl-3 gallery"><div class="img-hover-zoom img-hover-zoom--quick-zoom"><img id="im_product" src="media/{{item.itemImage}}" alt="{{item.itemName}}" class="img-thumbnail"></div>
+      <div class="desc">{{item.itemName}}</div>
+      {% if item.hasSubcat %}
+      <div class="dropdown"style="  display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-box-align : center; -moz-box-align    : center;-ms-flex-align    : center; -webkit-align-items : center; align-items : center ; justify-content : center; -webkit-justify-content : center; -webkit-box-pack : center; -moz-box-pack : center; -ms-flex-pack : center; ">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Varient
+        <span class="caret"></span></button>
+        <ul class="dropdown-menu" style="text-align: center;">
+          <li><a href="#">1 Kg</a></li>
+          <li><a href="#">200 gm</a></li>
+          <li><a href="#">4 pc.</a></li>
+        </ul>
+      </div>
+      {% else %}
+        <div style="text-align: center;">
+          <strong>{{item.defaultVarient}}&nbsp&nbsp-&nbsp&nbsp{{item.itemPrice}} RS. </strong>
+        </div>
+      {% endif %}
+      
+
+      <div class="desc">
+        <div>
+          {% for cartitem in cart %}
+            {% if item.id == cartitem.product_id %}
+            Quantity in Cart : {{cartitem.product_quantity}}
+            {% endif %}
+          {% endfor %}
+        
+        </div>
+      </div>
+      <div class="desc">
+        <form class="addtocart" >
+          {% csrf_token %}
+    
+          <div>
+            <input type="hidden" value="{{item.id}}" name="itemid"/>
+            <button class="btn btn-primary btn-sm" type="submit"  style="margin-bottom: 5px;"  )>Add to Cart</button>
+          </div>
+            </form>
+
+            <form class="deleteitem">
+              {% csrf_token %}
+              {% for cartitem in cart %}
+                {% if item.id == cartitem.product_id %}
+                <input type="hidden" value="{{item.id}}" name="itemid"/>
+                <button class="btn btn-primary btn-sm" type="submit" )>Delete an item</button>
+                {% endif %}
+              {% endfor %}
+            </form>
+      </div>
+      </div>
+      {% endfor %}
+
+
+
+
+
+
+    </div><!-- /#row -->
+  </div>
+
+
+
+  <script type="text/javascript">
+
+    $(document).on('submit','.addtocart',function(e){
+
+        e.preventDefault();
+        var a=$(this).find('input[name=itemid]').val();
+        $.ajax({              
+
+          type:'POST',
+          url:'addtocart',
+          data:{
+            itemid:a,
+            'csrfmiddlewaretoken': $('[name="csrfmiddlewaretoken"]').val()
+          }
+        });
+        setTimeout(() => { document.location.reload(true);} , 100);
+    });
+
+
+    $(document).on('submit','.deleteitem',function(e){
+
+        e.preventDefault();
+        var a=$(this).find('input[name=itemid]').val();
+        $.ajax({  
+          type:'POST',
+          url:'deleteitem',
+          data:{
+            itemid:a,
+            'csrfmiddlewaretoken': $('[name="csrfmiddlewaretoken"]').val()
+          }
+        });
+        setTimeout(() => { document.location.reload(true);} , 100);
+      });
+</script>
+
+
+
+
+<!--  script that counts Quantity -->
+  <script>
+  $('.add').click(function () {
+    var m = $(this).data('max');
+    var maxvalue=parseInt(m)
+  		if ($(this).prev().val() < maxvalue) {
+      	$(this).prev().val(+$(this).prev().val() + 1);
+  		}
+  });
+  $('.sub').click(function () {
+  		if ($(this).next().val() > 1) {
+      	if ($(this).next().val() > 1) $(this).next().val(+$(this).next().val() - 1);
+  		}
+  });
+  </script>
+
+<!--  SCRIPT THAT LOADS CATAGORY -->
+  <script>
+
+  function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+}
+
+
+  window.onload = function(){
+  var id = getUrlVars()["id"];
+  document.getElementById(id).click();
+var scriptTag = document.createElement("script");
+scriptTag.src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js";
+document.getElementsByTagName("head")[0].appendChild(scriptTag);
+}
+
+  </script>
+
+
+
+
+
+  <script>
+
+  filterSelection("all")
+  function filterSelection(c) {
+
+    var x, i;
+    x = document.getElementsByClassName("filterDiv");
+    if (c == "all") c = "";
+    for (i = 0; i < x.length; i++) {
+      w3RemoveClass(x[i], "show");
+      if (x[i].className.indexOf(c) > -1) w3AddClass(x[i], "show");
+    }
+  }
+
+  function w3AddClass(element, name) {
+    var i, arr1, arr2;
+    arr1 = element.className.split(" ");
+    arr2 = name.split(" ");
+    for (i = 0; i < arr2.length; i++) {
+      if (arr1.indexOf(arr2[i]) == -1) {element.className += " " + arr2[i];}
+    }
+  }
+
+  function w3RemoveClass(element, name) {
+    var i, arr1, arr2;
+    arr1 = element.className.split(" ");
+    arr2 = name.split(" ");
+    for (i = 0; i < arr2.length; i++) {
+      while (arr1.indexOf(arr2[i]) > -1) {
+        arr1.splice(arr1.indexOf(arr2[i]), 1);
+      }
+    }
+    element.className = arr1.join(" ");
+  }
+
+  // Add active class to the current button (highlight it)
+  var btnContainer = document.getElementById("myBtnContainer");
+  var btns = btnContainer.getElementsByClassName("btn");
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].addEventListener("click", function(){
+      var current = document.getElementsByClassName("active");
+      current[0].className = current[0].className.replace(" active", "");
+      document.getElementById("all2").className = document.getElementById("all2").className.replace(" active", "");
+
+      this.className += " active";
+      var a= this.id;
+      var b= a+"2";
+      document.getElementById(b).className += " active"
+    });
+  }
+  </script>
+
+</div>
+<br><br><br><br>
+<div class="footer">
+  <div class="footerText" style="color:white;text-align: center;">
+    <h2><br><br>THIS IS FOOTER</h2>
+  </div>
+</div>
+
+</body>
+</html>
